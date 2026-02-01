@@ -22,7 +22,7 @@
         --accent: #00f2ff;
         --gold: #ffd700;
         --discord: #5865f2;
-        --stream: #9146ff; /* Warna Gaming/Twitch */
+        --stream: #9146ff;
         --dark: #0a0a0a;
         --glass: rgba(20, 20, 20, 0.7);
         --border: 1px solid rgba(255, 255, 255, 0.1);
@@ -35,24 +35,31 @@
         -webkit-tap-highlight-color: transparent;
       }
 
+      html,
       body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
         background-color: var(--dark);
+      }
+
+      body {
         color: white;
         font-family: "Rajdhani", sans-serif;
         min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow-x: hidden;
         perspective: 1000px;
+        position: relative;
       }
 
       .bg-grid {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
         background-image:
           linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)),
           linear-gradient(
@@ -80,10 +87,11 @@
             transparent
           );
         background-size: 50px 50px;
-        transform: perspective(500px) rotateX(60deg) translateY(0) scale(2);
+        transform: perspective(500px) rotateX(60deg) translateY(0) scale(1);
         animation: gridMove 5s linear infinite;
         z-index: -2;
         opacity: 0.4;
+        pointer-events: none;
       }
 
       @keyframes gridMove {
@@ -108,6 +116,7 @@
         );
         z-index: -1;
         animation: pulse 4s ease-in-out infinite alternate;
+        pointer-events: none;
       }
 
       @keyframes pulse {
@@ -128,6 +137,7 @@
         position: relative;
         z-index: 10;
         animation: fadeInUp 1s ease-out forwards;
+        overflow: visible;
       }
 
       .profile {
@@ -210,11 +220,11 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
+        width: 100%;
       }
 
-      /* Divider untuk Teman */
       .section-divider {
-        margin: 20px 0 5px;
+        margin: 25px 0 10px;
         text-align: center;
         font-size: 0.8rem;
         color: rgba(255, 255, 255, 0.6);
@@ -225,6 +235,7 @@
         gap: 10px;
         letter-spacing: 2px;
         font-weight: bold;
+        text-transform: uppercase;
       }
 
       .section-divider::before,
@@ -261,9 +272,9 @@
         opacity: 0;
         transform: translateY(20px);
         animation: slideIn 0.5s ease-out forwards;
+        width: 100%;
       }
 
-      /* Stagger Animation */
       .link-btn:nth-child(1) {
         animation-delay: 0.1s;
       }
@@ -282,7 +293,7 @@
       .link-btn:nth-child(6) {
         animation-delay: 0.6s;
       }
-      /* Tombol teman delaynya belakangan */
+
       .friends-section .link-btn:nth-child(1) {
         animation-delay: 0.7s;
       }
@@ -295,6 +306,15 @@
         align-items: center;
         gap: 15px;
         z-index: 2;
+        text-align: left;
+        flex: 1;
+      }
+
+      .btn-content span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 250px;
       }
 
       .btn-icon {
@@ -302,6 +322,7 @@
         text-align: center;
         font-size: 1.3rem;
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        flex-shrink: 0;
       }
 
       .link-btn::before {
@@ -335,7 +356,6 @@
         color: var(--accent);
       }
 
-      /* Brand Colors */
       .tiktok:hover {
         border-color: #fe2c55;
         box-shadow: 0 0 20px rgba(254, 44, 85, 0.4);
@@ -360,7 +380,6 @@
         background: linear-gradient(90deg, var(--discord), transparent);
       }
 
-      /* Teman Streamer */
       .streamer:hover {
         border-color: var(--stream);
         box-shadow: 0 0 20px rgba(145, 70, 255, 0.4);
@@ -421,10 +440,13 @@
         }
         .link-btn {
           padding: 15px 20px;
-          font-size: 1rem;
+          font-size: 0.95rem;
         }
         .bg-grid {
           background-size: 40px 40px;
+        }
+        .btn-content span {
+          max-width: 180px;
         }
       }
     </style>
@@ -543,7 +565,7 @@
           >
             <div class="btn-content">
               <div class="btn-icon"><i class="fas fa-crosshairs"></i></div>
-              <span>radencihuy(RKJ - Valorant)</span>
+              <span>Radencihuy (RKJ - Valorant)</span>
             </div>
             <i class="fas fa-external-link-alt"></i>
           </a>

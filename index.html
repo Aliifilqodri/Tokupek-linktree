@@ -25,7 +25,6 @@
         --stream: #9146ff;
         --dark: #0a0a0a;
         --glass: rgba(20, 20, 20, 0.7);
-        --border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       * {
@@ -35,31 +34,25 @@
         -webkit-tap-highlight-color: transparent;
       }
 
-      html,
       body {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: hidden;
         background-color: var(--dark);
-      }
-
-      body {
         color: white;
         font-family: "Rajdhani", sans-serif;
         min-height: 100vh;
+        overflow-x: hidden;
         display: flex;
         justify-content: center;
-        align-items: center;
-        perspective: 1000px;
-        position: relative;
+        align-items: flex-start;
+        padding-top: 50px;
+        padding-bottom: 50px;
       }
 
       .bg-grid {
         position: fixed;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
         background-image:
           linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)),
           linear-gradient(
@@ -87,7 +80,7 @@
             transparent
           );
         background-size: 50px 50px;
-        transform: perspective(500px) rotateX(60deg) translateY(0) scale(1);
+        transform: perspective(500px) rotateX(60deg) translateY(0) scale(2);
         animation: gridMove 5s linear infinite;
         z-index: -2;
         opacity: 0.4;
@@ -133,11 +126,10 @@
       .container {
         width: 100%;
         max-width: 450px;
-        padding: 2rem;
+        padding: 1.5rem;
         position: relative;
         z-index: 10;
         animation: fadeInUp 1s ease-out forwards;
-        overflow: visible;
       }
 
       .profile {
@@ -224,7 +216,7 @@
       }
 
       .section-divider {
-        margin: 25px 0 10px;
+        margin: 30px 0 15px;
         text-align: center;
         font-size: 0.8rem;
         color: rgba(255, 255, 255, 0.6);
@@ -272,7 +264,6 @@
         opacity: 0;
         transform: translateY(20px);
         animation: slideIn 0.5s ease-out forwards;
-        width: 100%;
       }
 
       .link-btn:nth-child(1) {
@@ -306,15 +297,14 @@
         align-items: center;
         gap: 15px;
         z-index: 2;
-        text-align: left;
         flex: 1;
+        min-width: 0;
       }
 
       .btn-content span {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 250px;
       }
 
       .btn-icon {
@@ -432,7 +422,7 @@
 
       @media (max-width: 480px) {
         .container {
-          padding: 1.5rem;
+          padding: 1rem;
           width: 100%;
         }
         .glitch-name {
@@ -444,9 +434,6 @@
         }
         .bg-grid {
           background-size: 40px 40px;
-        }
-        .btn-content span {
-          max-width: 180px;
         }
       }
     </style>

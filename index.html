@@ -9,7 +9,7 @@
     <title>TokuFact | System Start</title>
     <link rel="icon" type="image/png" href="logo.png" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -19,14 +19,14 @@
 
     <style>
       :root {
-        --primary: #ff0055;
-        --accent: #00f2ff;
+        --primary: #ff0040;
+        --accent: #00f0ff;
         --gold: #ffd700;
         --discord: #5865f2;
         --youtube: #ff0000;
         --stream: #9146ff;
-        --dark: #0a0a0a;
-        --glass: rgba(20, 20, 20, 0.7);
+        --dark: #050505;
+        --panel: rgba(10, 10, 10, 0.85); /* Agak transparan biar BG kelihatan */
       }
 
       * {
@@ -45,104 +45,146 @@
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        padding-top: 50px;
-        padding-bottom: 50px;
+        padding: 40px 15px;
+        position: relative;
       }
 
+      /* BACKGROUND GRID - DIPERBAIKI BIAR KELIHATAN */
       .bg-grid {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background-color: var(--dark);
         background-image:
-          linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)),
+          /* Layer Gelap (Opacity dikurangi biar grid muncul) */
+          linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+          /* Garis Grid Horizontal */
           linear-gradient(
-            0deg,
-            transparent 24%,
-            rgba(0, 242, 255, 0.3) 25%,
-            rgba(0, 242, 255, 0.3) 26%,
-            transparent 27%,
-            transparent 74%,
-            rgba(0, 242, 255, 0.3) 75%,
-            rgba(0, 242, 255, 0.3) 76%,
-            transparent 77%,
-            transparent
-          ),
+              0deg,
+              transparent 24%,
+              rgba(0, 240, 255, 0.4) 25%,
+              /* Diterangin jadi 0.4 */ rgba(0, 240, 255, 0.4) 26%,
+              transparent 27%,
+              transparent 74%,
+              rgba(0, 240, 255, 0.4) 75%,
+              rgba(0, 240, 255, 0.4) 76%,
+              transparent 77%,
+              transparent
+            ),
+          /* Garis Grid Vertikal */
           linear-gradient(
-            90deg,
-            transparent 24%,
-            rgba(0, 242, 255, 0.3) 25%,
-            rgba(0, 242, 255, 0.3) 26%,
-            transparent 27%,
-            transparent 74%,
-            rgba(0, 242, 255, 0.3) 75%,
-            rgba(0, 242, 255, 0.3) 76%,
-            transparent 77%,
-            transparent
-          );
+              90deg,
+              transparent 24%,
+              rgba(0, 240, 255, 0.4) 25%,
+              /* Diterangin jadi 0.4 */ rgba(0, 240, 255, 0.4) 26%,
+              transparent 27%,
+              transparent 74%,
+              rgba(0, 240, 255, 0.4) 75%,
+              rgba(0, 240, 255, 0.4) 76%,
+              transparent 77%,
+              transparent
+            );
         background-size: 50px 50px;
-        transform: perspective(500px) rotateX(60deg) translateY(0) scale(2);
-        animation: gridMove 5s linear infinite;
-        z-index: -2;
-        opacity: 0.4;
+        transform: perspective(500px) rotateX(60deg);
+        animation: gridMove 15s linear infinite;
+        z-index: -3;
         pointer-events: none;
       }
 
-      @keyframes gridMove {
-        0% {
-          background-position: 0 0;
-        }
-        100% {
-          background-position: 0 50px;
-        }
-      }
-
+      /* PARTIKEL DEBU (Tambahan biar makin rame) */
       .particles {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(
-          circle at 50% 50%,
-          rgba(255, 0, 85, 0.2),
-          transparent 60%
-        );
-        z-index: -1;
-        animation: pulse 4s ease-in-out infinite alternate;
+        background-image: radial-gradient(var(--primary) 1px, transparent 1px);
+        background-size: 50px 50px;
+        opacity: 0.2;
+        z-index: -2;
+        animation: particleMove 20s linear infinite;
         pointer-events: none;
       }
 
-      @keyframes pulse {
+      @keyframes gridMove {
         0% {
-          opacity: 0.5;
-          transform: scale(1);
+          transform: perspective(500px) rotateX(60deg) translateY(0);
         }
         100% {
-          opacity: 0.8;
-          transform: scale(1.1);
+          transform: perspective(500px) rotateX(60deg) translateY(50px);
+        }
+      }
+
+      @keyframes particleMove {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-100px);
         }
       }
 
       .container {
         width: 100%;
-        max-width: 450px;
-        padding: 1.5rem;
+        max-width: 480px;
         position: relative;
         z-index: 10;
-        animation: fadeInUp 1s ease-out forwards;
+        background: var(--panel);
+        backdrop-filter: blur(5px); /* Efek blur di belakang kartu */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        clip-path: polygon(
+          20px 0,
+          100% 0,
+          100% calc(100% - 20px),
+          calc(100% - 20px) 100%,
+          0 100%,
+          0 20px
+        );
+        box-shadow: 0 0 40px rgba(0, 240, 255, 0.15);
+        animation: cardEntry 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--accent),
+          transparent
+        );
+        animation: scanline 3s linear infinite;
+      }
+
+      .system-header {
+        display: flex;
+        justify-content: space-between;
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.65rem;
+        color: var(--accent);
+        opacity: 0.8;
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+        border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+        padding-bottom: 8px;
       }
 
       .profile {
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
         position: relative;
       }
 
-      .avatar-wrapper {
-        width: 130px;
-        height: 130px;
+      .avatar-box {
+        width: 120px;
+        height: 120px;
         margin: 0 auto 15px;
         position: relative;
         display: flex;
@@ -150,111 +192,80 @@
         align-items: center;
       }
 
-      .hud-ring {
+      .hex-border {
         position: absolute;
         width: 100%;
         height: 100%;
-        border: 2px dashed var(--accent);
-        border-radius: 50%;
-        animation: spin 10s linear infinite;
-        box-shadow: 0 0 15px var(--accent);
+        border: 2px solid var(--primary);
+        transform: rotate(45deg);
+        box-shadow: 0 0 15px var(--primary);
+        animation: pulseBorder 2s infinite alternate;
       }
 
-      .hud-ring::before {
-        content: "";
-        position: absolute;
-        top: -5px;
-        left: -5px;
-        right: -5px;
-        bottom: -5px;
-        border-radius: 50%;
-        border: 2px solid transparent;
-        border-top-color: var(--primary);
-        border-bottom-color: var(--primary);
-        animation: spinReverse 5s linear infinite;
+      .hex-border:nth-child(2) {
+        border-color: var(--accent);
+        transform: rotate(45deg) scale(0.9);
+        box-shadow: none;
+        animation: none;
       }
 
       .avatar {
-        width: 110px;
-        height: 110px;
-        border-radius: 50%;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        border: 3px solid white;
+        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        transform: scale(0.85);
         z-index: 2;
+        filter: brightness(1.1) contrast(1.1);
       }
 
       .glitch-name {
         font-family: "Orbitron", sans-serif;
-        font-size: 2rem;
+        font-size: 2.2rem;
         font-weight: 900;
+        color: white;
         text-transform: uppercase;
         letter-spacing: 3px;
         position: relative;
-        display: inline-block;
-        text-shadow:
-          2px 2px var(--primary),
-          -2px -2px var(--accent);
+        text-shadow: 2px 2px 0px var(--primary);
       }
 
       .role {
-        color: #ccc;
+        font-family: "Rajdhani", sans-serif;
+        color: var(--accent);
         font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 4px;
+        text-transform: uppercase;
         margin-top: 5px;
-        letter-spacing: 2px;
         background: linear-gradient(
           90deg,
           transparent,
-          rgba(255, 255, 255, 0.1),
+          rgba(0, 240, 255, 0.1),
           transparent
         );
-        padding: 5px;
       }
 
       .links-wrapper {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 14px;
         width: 100%;
-      }
-
-      .section-divider {
-        margin: 30px 0 15px;
-        text-align: center;
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.6);
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        letter-spacing: 2px;
-        font-weight: bold;
-        text-transform: uppercase;
-      }
-
-      .section-divider::before,
-      .section-divider::after {
-        content: "";
-        height: 1px;
-        background: rgba(255, 255, 255, 0.2);
-        flex: 1;
       }
 
       .link-btn {
         position: relative;
-        background: var(--glass);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 18px 25px;
-        text-decoration: none;
-        color: white;
-        font-size: 1.1rem;
-        font-weight: bold;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 0 25px;
+        text-decoration: none;
+        color: white;
         overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition: all 0.3s ease;
         clip-path: polygon(
           15px 0,
           100% 0,
@@ -264,8 +275,180 @@
           0 15px
         );
         opacity: 0;
-        transform: translateY(20px);
-        animation: slideIn 0.5s ease-out forwards;
+        animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+
+      .link-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transform: translateX(-100%);
+        transition: 0.5s;
+        z-index: 1;
+      }
+
+      .link-btn::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: var(--accent);
+        transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 0 10px var(--accent);
+      }
+
+      .btn-content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        z-index: 2;
+        width: 100%;
+      }
+
+      .btn-icon {
+        font-size: 1.4rem;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.7);
+        transition: 0.3s;
+      }
+
+      .btn-text {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 1px;
+        transition: 0.3s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .arrow-box {
+        width: 20px;
+        height: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.7rem;
+        transition: 0.3s;
+        z-index: 2;
+        transform: rotate(45deg);
+      }
+
+      .arrow-box i {
+        transform: rotate(-45deg);
+      }
+
+      /* HOVER ANIMATIONS */
+      .link-btn:hover {
+        background: rgba(0, 0, 0, 0.5);
+        border-color: rgba(255, 255, 255, 0.5);
+        padding-left: 35px;
+      }
+
+      .link-btn:hover::before {
+        transform: translateX(100%);
+      }
+
+      .link-btn:hover::after {
+        width: 100%;
+      }
+
+      .link-btn:hover .btn-icon {
+        color: white;
+        transform: scale(1.2);
+        filter: drop-shadow(0 0 5px currentColor);
+      }
+
+      .link-btn:hover .btn-text {
+        letter-spacing: 2px;
+        color: white;
+        text-shadow: 0 0 8px currentColor;
+      }
+
+      .link-btn:hover .arrow-box {
+        background: white;
+        color: black;
+        border-color: white;
+        transform: rotate(225deg);
+        box-shadow: 0 0 10px white;
+      }
+
+      .tiktok:hover .btn-icon,
+      .tiktok:hover .btn-text {
+        color: #fe2c55;
+      }
+      .tiktok:hover::after {
+        background: #fe2c55;
+        box-shadow: 0 0 15px #fe2c55;
+      }
+
+      .youtube:hover .btn-icon,
+      .youtube:hover .btn-text {
+        color: #ff0000;
+      }
+      .youtube:hover::after {
+        background: #ff0000;
+        box-shadow: 0 0 15px #ff0000;
+      }
+
+      .instagram:hover .btn-icon,
+      .instagram:hover .btn-text {
+        color: #d62976;
+      }
+      .instagram:hover::after {
+        background: #d62976;
+        box-shadow: 0 0 15px #d62976;
+      }
+
+      .wikitoku:hover .btn-icon,
+      .wikitoku:hover .btn-text {
+        color: var(--accent);
+      }
+      .wikitoku:hover::after {
+        background: var(--accent);
+        box-shadow: 0 0 15px var(--accent);
+      }
+
+      .discord:hover .btn-icon,
+      .discord:hover .btn-text {
+        color: var(--discord);
+      }
+      .discord:hover::after {
+        background: var(--discord);
+        box-shadow: 0 0 15px var(--discord);
+      }
+
+      .saweria:hover .btn-icon,
+      .saweria:hover .btn-text {
+        color: var(--gold);
+      }
+      .saweria:hover::after {
+        background: var(--gold);
+        box-shadow: 0 0 15px var(--gold);
+      }
+
+      .streamer:hover .btn-icon,
+      .streamer:hover .btn-text {
+        color: var(--stream);
+      }
+      .streamer:hover::after {
+        background: var(--stream);
+        box-shadow: 0 0 15px var(--stream);
       }
 
       .link-btn:nth-child(1) {
@@ -289,7 +472,6 @@
       .link-btn:nth-child(7) {
         animation-delay: 0.7s;
       }
-
       .friends-section .link-btn:nth-child(1) {
         animation-delay: 0.8s;
       }
@@ -297,156 +479,91 @@
         animation-delay: 0.9s;
       }
 
-      .btn-content {
+      .section-divider {
+        margin: 35px 0 15px;
         display: flex;
         align-items: center;
         gap: 15px;
-        z-index: 2;
-        flex: 1;
-        min-width: 0;
+        color: rgba(255, 255, 255, 0.5);
+        font-family: "Orbitron", sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
       }
 
-      .btn-content span {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .btn-icon {
-        width: 30px;
-        text-align: center;
-        font-size: 1.3rem;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        flex-shrink: 0;
-      }
-
-      .link-btn::before {
+      .section-divider::before,
+      .section-divider::after {
         content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-        background: var(--accent);
-        transition: width 0.3s ease;
-        z-index: 1;
-      }
-
-      .link-btn:hover {
-        transform: scale(1.02) translateX(5px);
-        border-color: var(--accent);
-        box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
-        background: rgba(0, 0, 0, 0.8);
-      }
-
-      .link-btn:hover::before {
-        width: 100%;
-        opacity: 0.15;
-        background: linear-gradient(90deg, var(--accent), transparent);
-      }
-
-      .link-btn:hover .btn-icon {
-        transform: rotateY(360deg);
-        transition: transform 0.6s;
-        color: var(--accent);
-      }
-
-      .tiktok:hover {
-        border-color: #fe2c55;
-        box-shadow: 0 0 20px rgba(254, 44, 85, 0.4);
-      }
-      .tiktok:hover::before {
-        background: linear-gradient(90deg, #fe2c55, transparent);
-      }
-
-      .youtube:hover {
-        border-color: var(--youtube);
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-      }
-      .youtube:hover::before {
-        background: linear-gradient(90deg, var(--youtube), transparent);
-      }
-
-      .saweria:hover {
-        border-color: var(--gold);
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-      }
-      .saweria:hover::before {
-        background: linear-gradient(90deg, var(--gold), transparent);
-      }
-
-      .discord:hover {
-        border-color: var(--discord);
-        box-shadow: 0 0 20px rgba(88, 101, 242, 0.4);
-      }
-      .discord:hover::before {
-        background: linear-gradient(90deg, var(--discord), transparent);
-      }
-
-      .streamer:hover {
-        border-color: var(--stream);
-        box-shadow: 0 0 20px rgba(145, 70, 255, 0.4);
-      }
-      .streamer:hover::before {
-        background: linear-gradient(90deg, var(--stream), transparent);
+        height: 1px;
+        flex: 1;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
       }
 
       footer {
         margin-top: 3rem;
         text-align: center;
+        font-family: "Rajdhani", sans-serif;
         font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.5);
-        animation: fadeIn 2s forwards;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 2px;
+        animation: slideUp 1s forwards 1s;
         opacity: 0;
-        animation-delay: 1s;
       }
 
-      @keyframes spin {
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-      @keyframes spinReverse {
-        100% {
-          transform: rotate(-360deg);
-        }
-      }
-      @keyframes slideIn {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes fadeInUp {
+      @keyframes slideUp {
         from {
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateY(30px);
         }
         to {
           opacity: 1;
           transform: translateY(0);
         }
       }
-      @keyframes fadeIn {
+      @keyframes pulseBorder {
+        from {
+          box-shadow: 0 0 10px var(--primary);
+        }
         to {
+          box-shadow: 0 0 25px var(--primary);
+        }
+      }
+      @keyframes cardEntry {
+        0% {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        100% {
           opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes scanline {
+        0% {
+          top: 0;
+        }
+        100% {
+          top: 100%;
         }
       }
 
       @media (max-width: 480px) {
         .container {
-          padding: 1rem;
-          width: 100%;
+          padding: 1.5rem;
         }
         .glitch-name {
           font-size: 1.8rem;
         }
-        .link-btn {
-          padding: 15px 20px;
+        .btn-text {
           font-size: 0.95rem;
         }
-        .bg-grid {
-          background-size: 40px 40px;
+        .link-btn {
+          padding: 0 20px;
         }
       }
     </style>
@@ -456,18 +573,24 @@
     <div class="particles"></div>
 
     <div class="container">
+      <div class="system-header">
+        <span>SYS: ONLINE</span>
+        <span>ENERGY: 100%</span>
+        <span>ID: TOKU-001</span>
+      </div>
+
       <div class="profile">
-        <div class="avatar-wrapper">
-          <div class="hud-ring"></div>
+        <div class="avatar-box">
+          <div class="hex-border"></div>
+          <div class="hex-border"></div>
           <img
             src="https://ui-avatars.com/api/?name=Alip+Toku&background=0a0a0a&color=00f2ff&size=200&bold=true"
             alt="Alip"
             class="avatar"
           />
         </div>
-
         <h1 class="glitch-name">TOKUFACT</h1>
-        <p class="role">CREATOR // DEVELOPER // RIDER</p>
+        <p class="role">CREATOR // RIDER // DEV</p>
       </div>
 
       <div class="links-wrapper">
@@ -478,9 +601,9 @@
         >
           <div class="btn-content">
             <div class="btn-icon"><i class="fab fa-tiktok"></i></div>
-            <span>TikTok Official</span>
+            <span class="btn-text">TikTok Official</span>
           </div>
-          <i class="fas fa-chevron-right"></i>
+          <div class="arrow-box"><i class="fas fa-arrow-right"></i></div>
         </a>
 
         <a
@@ -490,9 +613,9 @@
         >
           <div class="btn-content">
             <div class="btn-icon"><i class="fab fa-youtube"></i></div>
-            <span>YouTube Channel</span>
+            <span class="btn-text">YouTube Channel</span>
           </div>
-          <i class="fas fa-chevron-right"></i>
+          <div class="arrow-box"><i class="fas fa-arrow-right"></i></div>
         </a>
 
         <a
@@ -502,9 +625,9 @@
         >
           <div class="btn-content">
             <div class="btn-icon"><i class="fab fa-instagram"></i></div>
-            <span>Instagram</span>
+            <span class="btn-text">Instagram</span>
           </div>
-          <i class="fas fa-chevron-right"></i>
+          <div class="arrow-box"><i class="fas fa-arrow-right"></i></div>
         </a>
 
         <a
@@ -514,9 +637,9 @@
         >
           <div class="btn-content">
             <div class="btn-icon"><i class="fas fa-database"></i></div>
-            <span>Project: WikiToku</span>
+            <span class="btn-text">Project: WikiToku</span>
           </div>
-          <i class="fas fa-code"></i>
+          <div class="arrow-box"><i class="fas fa-arrow-right"></i></div>
         </a>
 
         <a
@@ -526,9 +649,9 @@
         >
           <div class="btn-content">
             <div class="btn-icon"><i class="fas fa-laptop-code"></i></div>
-            <span>Akiry Studio</span>
+            <span class="btn-text">Akiry Studio</span>
           </div>
-          <i class="fas fa-briefcase"></i>
+          <div class="arrow-box"><i class="fas fa-arrow-right"></i></div>
         </a>
 
         <a
@@ -538,9 +661,9 @@
         >
           <div class="btn-content">
             <div class="btn-icon"><i class="fab fa-discord"></i></div>
-            <span>Discord Community</span>
+            <span class="btn-text">Discord Community</span>
           </div>
-          <i class="fas fa-users"></i>
+          <div class="arrow-box"><i class="fas fa-arrow-right"></i></div>
         </a>
 
         <a
@@ -550,12 +673,12 @@
         >
           <div class="btn-content">
             <div class="btn-icon"><i class="fas fa-bolt"></i></div>
-            <span>Traktir / Saweria</span>
+            <span class="btn-text">Traktir / Saweria</span>
           </div>
-          <i class="fas fa-heart"></i>
+          <div class="arrow-box"><i class="fas fa-arrow-right"></i></div>
         </a>
 
-        <div class="section-divider">ALLIED FORCES (FRIENDS)</div>
+        <div class="section-divider">[ ALLIED FORCES ]</div>
 
         <div class="links-wrapper friends-section">
           <a
@@ -565,9 +688,9 @@
           >
             <div class="btn-content">
               <div class="btn-icon"><i class="fas fa-gamepad"></i></div>
-              <span>Kuroneroo (Variety Stream)</span>
+              <span class="btn-text">Kuroneroo (Stream)</span>
             </div>
-            <i class="fas fa-external-link-alt"></i>
+            <div class="arrow-box"><i class="fas fa-arrow-right"></i></div>
           </a>
 
           <a
@@ -577,16 +700,15 @@
           >
             <div class="btn-content">
               <div class="btn-icon"><i class="fas fa-crosshairs"></i></div>
-              <span>Radencihuy (RKJ - Valorant)</span>
+              <span class="btn-text">Radencihuy (Valorant)</span>
             </div>
-            <i class="fas fa-external-link-alt"></i>
+            <div class="arrow-box"><i class="fas fa-arrow-right"></i></div>
           </a>
         </div>
       </div>
 
       <footer>
-        <p>SYSTEM READY // CONNECTED</p>
-        <p style="margin-top: 5px">© 2026 Alip | TokuFact</p>
+        <p>SYSTEM ONLINE // TOKUFACT 2026</p>
       </footer>
     </div>
   </body>

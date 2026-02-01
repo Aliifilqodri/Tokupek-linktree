@@ -22,6 +22,7 @@
         --accent: #00f2ff;
         --gold: #ffd700;
         --discord: #5865f2;
+        --stream: #9146ff; /* Warna Gaming/Twitch */
         --dark: #0a0a0a;
         --glass: rgba(20, 20, 20, 0.7);
         --border: 1px solid rgba(255, 255, 255, 0.1);
@@ -211,6 +212,29 @@
         gap: 15px;
       }
 
+      /* Divider untuk Teman */
+      .section-divider {
+        margin: 20px 0 5px;
+        text-align: center;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        letter-spacing: 2px;
+        font-weight: bold;
+      }
+
+      .section-divider::before,
+      .section-divider::after {
+        content: "";
+        height: 1px;
+        background: rgba(255, 255, 255, 0.2);
+        flex: 1;
+      }
+
       .link-btn {
         position: relative;
         background: var(--glass);
@@ -239,23 +263,31 @@
         animation: slideIn 0.5s ease-out forwards;
       }
 
+      /* Stagger Animation */
       .link-btn:nth-child(1) {
-        animation-delay: 0.2s;
+        animation-delay: 0.1s;
       }
       .link-btn:nth-child(2) {
-        animation-delay: 0.3s;
+        animation-delay: 0.2s;
       }
       .link-btn:nth-child(3) {
-        animation-delay: 0.4s;
+        animation-delay: 0.3s;
       }
       .link-btn:nth-child(4) {
-        animation-delay: 0.5s;
+        animation-delay: 0.4s;
       }
       .link-btn:nth-child(5) {
-        animation-delay: 0.6s;
+        animation-delay: 0.5s;
       }
       .link-btn:nth-child(6) {
+        animation-delay: 0.6s;
+      }
+      /* Tombol teman delaynya belakangan */
+      .friends-section .link-btn:nth-child(1) {
         animation-delay: 0.7s;
+      }
+      .friends-section .link-btn:nth-child(2) {
+        animation-delay: 0.8s;
       }
 
       .btn-content {
@@ -303,6 +335,7 @@
         color: var(--accent);
       }
 
+      /* Brand Colors */
       .tiktok:hover {
         border-color: #fe2c55;
         box-shadow: 0 0 20px rgba(254, 44, 85, 0.4);
@@ -325,6 +358,15 @@
       }
       .discord:hover::before {
         background: linear-gradient(90deg, var(--discord), transparent);
+      }
+
+      /* Teman Streamer */
+      .streamer:hover {
+        border-color: var(--stream);
+        box-shadow: 0 0 20px rgba(145, 70, 255, 0.4);
+      }
+      .streamer:hover::before {
+        background: linear-gradient(90deg, var(--stream), transparent);
       }
 
       footer {
@@ -478,6 +520,34 @@
           </div>
           <i class="fas fa-heart"></i>
         </a>
+
+        <div class="section-divider">ALLIED FORCES (FRIENDS)</div>
+
+        <div class="links-wrapper friends-section">
+          <a
+            href="https://bylink.id/kuroneroo"
+            target="_blank"
+            class="link-btn streamer"
+          >
+            <div class="btn-content">
+              <div class="btn-icon"><i class="fas fa-gamepad"></i></div>
+              <span>Kuroneroo (Variety Stream)</span>
+            </div>
+            <i class="fas fa-external-link-alt"></i>
+          </a>
+
+          <a
+            href="https://linktr.ee/radencihuy?utm_source=linktree_profile_share&ltsid=36ba79c5-aed7-40df-8c3a-13b115a27388"
+            target="_blank"
+            class="link-btn streamer"
+          >
+            <div class="btn-content">
+              <div class="btn-icon"><i class="fas fa-crosshairs"></i></div>
+              <span>radencihuy(RKJ - Valorant)</span>
+            </div>
+            <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
       </div>
 
       <footer>

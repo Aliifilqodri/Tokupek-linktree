@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>TokuFact | System Start</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      :root {
+        --primary: #ff0055;
+        --accent: #00f2ff;
+        --gold: #ffd700;
+        --discord: #5865f2;
+        --dark: #0a0a0a;
+        --glass: rgba(20, 20, 20, 0.7);
+        --border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        background-color: var(--dark);
+        color: white;
+        font-family: "Rajdhani", sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        perspective: 1000px;
+      }
+
+      .bg-grid {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image:
+          linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.9)),
+          linear-gradient(
+            0deg,
+            transparent 24%,
+            rgba(0, 242, 255, 0.3) 25%,
+            rgba(0, 242, 255, 0.3) 26%,
+            transparent 27%,
+            transparent 74%,
+            rgba(0, 242, 255, 0.3) 75%,
+            rgba(0, 242, 255, 0.3) 76%,
+            transparent 77%,
+            transparent
+          ),
+          linear-gradient(
+            90deg,
+            transparent 24%,
+            rgba(0, 242, 255, 0.3) 25%,
+            rgba(0, 242, 255, 0.3) 26%,
+            transparent 27%,
+            transparent 74%,
+            rgba(0, 242, 255, 0.3) 75%,
+            rgba(0, 242, 255, 0.3) 76%,
+            transparent 77%,
+            transparent
+          );
+        background-size: 50px 50px;
+        transform: perspective(500px) rotateX(60deg) translateY(0) scale(2);
+        animation: gridMove 5s linear infinite;
+        z-index: -2;
+        opacity: 0.4;
+      }
+
+      @keyframes gridMove {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 0 50px;
+        }
+      }
+
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(255, 0, 85, 0.2),
+          transparent 60%
+        );
+        z-index: -1;
+        animation: pulse 4s ease-in-out infinite alternate;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0.5;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 0.8;
+          transform: scale(1.1);
+        }
+      }
+
+      .container {
+        width: 100%;
+        max-width: 450px;
+        padding: 2rem;
+        position: relative;
+        z-index: 10;
+        animation: fadeInUp 1s ease-out forwards;
+      }
+
+      .profile {
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .avatar-wrapper {
+        width: 130px;
+        height: 130px;
+        margin: 0 auto 15px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hud-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px dashed var(--accent);
+        border-radius: 50%;
+        animation: spin 10s linear infinite;
+        box-shadow: 0 0 15px var(--accent);
+      }
+
+      .hud-ring::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        border-top-color: var(--primary);
+        border-bottom-color: var(--primary);
+        animation: spinReverse 5s linear infinite;
+      }
+
+      .avatar {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+        z-index: 2;
+      }
+
+      .glitch-name {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        position: relative;
+        display: inline-block;
+        text-shadow:
+          2px 2px var(--primary),
+          -2px -2px var(--accent);
+      }
+
+      .role {
+        color: #ccc;
+        font-size: 1rem;
+        margin-top: 5px;
+        letter-spacing: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        padding: 5px;
+      }
+
+      .links-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .link-btn {
+        position: relative;
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 18px 25px;
+        text-decoration: none;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        clip-path: polygon(
+          15px 0,
+          100% 0,
+          100% calc(100% - 15px),
+          calc(100% - 15px) 100%,
+          0 100%,
+          0 15px
+        );
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideIn 0.5s ease-out forwards;
+      }
+
+      .link-btn:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .link-btn:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+      .link-btn:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      .link-btn:nth-child(4) {
+        animation-delay: 0.5s;
+      }
+      .link-btn:nth-child(5) {
+        animation-delay: 0.6s;
+      }
+      .link-btn:nth-child(6) {
+        animation-delay: 0.7s;
+      }
+
+      .btn-content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        z-index: 2;
+      }
+
+      .btn-icon {
+        width: 30px;
+        text-align: center;
+        font-size: 1.3rem;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+
+      .link-btn::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+        z-index: 1;
+      }
+
+      .link-btn:hover {
+        transform: scale(1.02) translateX(5px);
+        border-color: var(--accent);
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+        background: rgba(0, 0, 0, 0.8);
+      }
+
+      .link-btn:hover::before {
+        width: 100%;
+        opacity: 0.15;
+        background: linear-gradient(90deg, var(--accent), transparent);
+      }
+
+      .link-btn:hover .btn-icon {
+        transform: rotateY(360deg);
+        transition: transform 0.6s;
+        color: var(--accent);
+      }
+
+      .tiktok:hover {
+        border-color: #fe2c55;
+        box-shadow: 0 0 20px rgba(254, 44, 85, 0.4);
+      }
+      .tiktok:hover::before {
+        background: linear-gradient(90deg, #fe2c55, transparent);
+      }
+
+      .saweria:hover {
+        border-color: var(--gold);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      }
+      .saweria:hover::before {
+        background: linear-gradient(90deg, var(--gold), transparent);
+      }
+
+      .discord:hover {
+        border-color: var(--discord);
+        box-shadow: 0 0 20px rgba(88, 101, 242, 0.4);
+      }
+      .discord:hover::before {
+        background: linear-gradient(90deg, var(--discord), transparent);
+      }
+
+      footer {
+        margin-top: 3rem;
+        text-align: center;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+        animation: fadeIn 2s forwards;
+        opacity: 0;
+        animation-delay: 1s;
+      }
+
+      @keyframes spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes spinReverse {
+        100% {
+          transform: rotate(-360deg);
+        }
+      }
+      @keyframes slideIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 1.5rem;
+          width: 100%;
+        }
+        .glitch-name {
+          font-size: 1.8rem;
+        }
+        .link-btn {
+          padding: 15px 20px;
+          font-size: 1rem;
+        }
+        .bg-grid {
+          background-size: 40px 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="particles"></div>
+
+    <div class="container">
+      <div class="profile">
+        <div class="avatar-wrapper">
+          <div class="hud-ring"></div>
+          <img
+            src="https://ui-avatars.com/api/?name=Alip+Toku&background=0a0a0a&color=00f2ff&size=200&bold=true"
+            alt="Alip"
+            class="avatar"
+          />
+        </div>
+
+        <h1 class="glitch-name">TOKUFACT</h1>
+        <p class="role">CREATOR // DEVELOPER // RIDER</p>
+      </div>
+
+      <div class="links-wrapper">
+        <a
+          href="https://www.tiktok.com/@aalipli?lang=en"
+          target="_blank"
+          class="link-btn tiktok"
+        >
+          <div class="btn-content">
+            <div class="btn-icon"><i class="fab fa-tiktok"></i></div>
+            <span>TikTok Official</span>
+          </div>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+
+        <a
+          href="https://www.instagram.com/aaliipppp._/"
+          target="_blank"
+          class="link-btn instagram"
+        >
+          <div class="btn-content">
+            <div class="btn-icon"><i class="fab fa-instagram"></i></div>
+            <span>Instagram</span>
+          </div>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+
+        <a
+          href="https://wikitoku.vercel.app/"
+          target="_blank"
+          class="link-btn wikitoku"
+        >
+          <div class="btn-content">
+            <div class="btn-icon"><i class="fas fa-database"></i></div>
+            <span>Project: WikiToku</span>
+          </div>
+          <i class="fas fa-code"></i>
+        </a>
+
+        <a
+          href="https://akirystudio.vercel.app/"
+          target="_blank"
+          class="link-btn akiry"
+        >
+          <div class="btn-content">
+            <div class="btn-icon"><i class="fas fa-laptop-code"></i></div>
+            <span>Akiry Studio</span>
+          </div>
+          <i class="fas fa-briefcase"></i>
+        </a>
+
+        <a
+          href="https://discord.gg/yVRmmHSec6"
+          target="_blank"
+          class="link-btn discord"
+        >
+          <div class="btn-content">
+            <div class="btn-icon"><i class="fab fa-discord"></i></div>
+            <span>Discord Community</span>
+          </div>
+          <i class="fas fa-users"></i>
+        </a>
+
+        <a
+          href="https://saweria.co/Aliifilqodri"
+          target="_blank"
+          class="link-btn saweria"
+        >
+          <div class="btn-content">
+            <div class="btn-icon"><i class="fas fa-bolt"></i></div>
+            <span>Traktir / Saweria</span>
+          </div>
+          <i class="fas fa-heart"></i>
+        </a>
+      </div>
+
+      <footer>
+        <p>SYSTEM READY // CONNECTED</p>
+        <p style="margin-top: 5px">© 2026 Alip | TokuFact</p>
+      </footer>
+    </div>
+  </body>
+</html>

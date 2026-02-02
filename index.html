@@ -1,396 +1,795 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>TokuFact | System Override</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
     <style>
-        :root {
-            --primary: #ff0040;
-            --accent: #00f0ff;
-            --gold: #ffd700;
-            --discord: #5865f2;
-            --youtube: #ff0000;
-            --stream: #9146ff;
-            --dark: #050505;
-            --panel: rgba(15, 15, 20, 0.8);
-        }
+      :root {
+        --primary: #ff0040;
+        --accent: #00f0ff;
+        --gold: #ffd700;
+        --discord: #5865f2;
+        --youtube: #ff0000;
+        --stream: #9146ff;
+        --dark: #050505;
+        --panel: rgba(15, 15, 20, 0.8);
+      }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
 
-        body {
-            background-color: var(--dark);
-            color: white;
-            font-family: "Rajdhani", sans-serif;
-            min-height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px;
-        }
+      body {
+        background-color: var(--dark);
+        color: white;
+        font-family: "Rajdhani", sans-serif;
+        min-height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 1000px;
+      }
 
-        #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: black; z-index: 99999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.5s ease-out;
-        }
-        
-        .loader-text {
-            font-family: 'Orbitron'; color: var(--accent); font-size: 1.5rem; letter-spacing: 5px;
-            animation: blink 0.5s infinite; margin-bottom: 20px;
-        }
+      #loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease-out;
+      }
 
-        .loader-bar {
-            width: 200px; height: 4px; background: #333; position: relative; overflow: hidden;
-        }
-        .loader-fill {
-            position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--primary);
-            animation: loadFill 2s ease-in-out forwards;
-            box-shadow: 0 0 15px var(--primary);
-        }
+      .loader-text {
+        font-family: "Orbitron";
+        color: var(--accent);
+        font-size: 1.5rem;
+        letter-spacing: 5px;
+        animation: blink 0.5s infinite;
+        margin-bottom: 20px;
+      }
 
-        .bg-grid {
-            position: fixed; top: -100%; left: -100%; width: 300%; height: 300%;
-            background-image: 
-                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
-                linear-gradient(0deg, transparent 24%, rgba(0,240,255,0.2) 25%, rgba(0,240,255,0.2) 26%, transparent 27%, transparent 74%, rgba(0,240,255,0.2) 75%, rgba(0,240,255,0.2) 76%, transparent 77%, transparent),
-                linear-gradient(90deg, transparent 24%, rgba(0,240,255,0.2) 25%, rgba(0,240,255,0.2) 26%, transparent 27%, transparent 74%, rgba(0,240,255,0.2) 75%, rgba(0,240,255,0.2) 76%, transparent 77%, transparent);
-            background-size: 80px 80px;
-            transform: perspective(600px) rotateX(60deg) translateY(0);
-            animation: gridFlow 10s linear infinite;
-            z-index: -3; pointer-events: none;
-        }
+      .loader-bar {
+        width: 200px;
+        height: 4px;
+        background: #333;
+        position: relative;
+        overflow: hidden;
+      }
+      .loader-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 0%;
+        background: var(--primary);
+        animation: loadFill 2s ease-in-out forwards;
+        box-shadow: 0 0 15px var(--primary);
+      }
 
-        .particles {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1;
-        }
-        .particle {
-            position: absolute; width: 2px; height: 2px; background: var(--accent);
-            box-shadow: 0 0 5px var(--accent); border-radius: 50%;
-            animation: floatUp linear infinite;
-        }
+      .bg-grid {
+        position: fixed;
+        top: -100%;
+        left: -100%;
+        width: 300%;
+        height: 300%;
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+          linear-gradient(
+            0deg,
+            transparent 24%,
+            rgba(0, 240, 255, 0.2) 25%,
+            rgba(0, 240, 255, 0.2) 26%,
+            transparent 27%,
+            transparent 74%,
+            rgba(0, 240, 255, 0.2) 75%,
+            rgba(0, 240, 255, 0.2) 76%,
+            transparent 77%,
+            transparent
+          ),
+          linear-gradient(
+            90deg,
+            transparent 24%,
+            rgba(0, 240, 255, 0.2) 25%,
+            rgba(0, 240, 255, 0.2) 26%,
+            transparent 27%,
+            transparent 74%,
+            rgba(0, 240, 255, 0.2) 75%,
+            rgba(0, 240, 255, 0.2) 76%,
+            transparent 77%,
+            transparent
+          );
+        background-size: 80px 80px;
+        transform: perspective(600px) rotateX(60deg) translateY(0);
+        animation: gridFlow 10s linear infinite;
+        z-index: -3;
+        pointer-events: none;
+      }
 
-        .shadow-layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none;
-        }
-        .shadow-img {
-            position: absolute; opacity: 0;
-            filter: grayscale(100%) brightness(0.3) drop-shadow(0 0 10px rgba(0,240,255,0.3));
-            width: 50%; max-width: 400px; height: auto; object-fit: contain;
-            animation: floatImage 20s infinite ease-in-out;
-        }
-        
-        .img-1 { bottom: 0; left: -10%; animation-delay: 0s; }
-        .img-2 { top: 0; right: -10%; animation-delay: 5s; }
-        .img-3 { top: 30%; left: -5%; width: 40%; animation-delay: 10s; }
-        .img-4 { bottom: 20%; right: -5%; animation-delay: 15s; }
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      }
+      .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: var(--accent);
+        box-shadow: 0 0 5px var(--accent);
+        border-radius: 50%;
+        animation: floatUp linear infinite;
+      }
 
-        .container {
-            width: 100%; max-width: 500px; height: 90vh; overflow-y: auto;
-            position: relative; z-index: 10;
-            background: rgba(10, 12, 16, 0.6);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            transform-style: preserve-3d;
-            scrollbar-width: none;
-            animation: popUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            opacity: 0;
-        }
-        .container::-webkit-scrollbar { display: none; }
+      .shadow-layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        pointer-events: none;
+      }
+      .shadow-img {
+        position: absolute;
+        opacity: 0;
+        filter: grayscale(100%) brightness(0.3)
+          drop-shadow(0 0 10px rgba(0, 240, 255, 0.3));
+        width: 50%;
+        max-width: 400px;
+        height: auto;
+        object-fit: contain;
+        animation: floatImage 20s infinite ease-in-out;
+      }
 
-        .header-status {
-            display: flex; justify-content: space-between; align-items: center;
-            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--accent);
-            margin-bottom: 25px; border-bottom: 1px solid rgba(0,240,255,0.2);
-            padding-bottom: 10px;
-        }
-        .live-dot {
-            width: 8px; height: 8px; background: #0f0; border-radius: 50%;
-            display: inline-block; margin-right: 5px; box-shadow: 0 0 10px #0f0;
-            animation: pulseDot 1s infinite;
-        }
+      .img-1 {
+        bottom: 0;
+        left: -10%;
+        animation-delay: 0s;
+      }
+      .img-2 {
+        top: 0;
+        right: -10%;
+        animation-delay: 5s;
+      }
+      .img-3 {
+        top: 30%;
+        left: -5%;
+        width: 40%;
+        animation-delay: 10s;
+      }
+      .img-4 {
+        bottom: 20%;
+        right: -5%;
+        animation-delay: 15s;
+      }
 
-        .profile-section {
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            margin-bottom: 30px; transform: translateZ(20px);
+      .container {
+        width: 100%;
+        max-width: 500px;
+        height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        z-index: 10;
+        background: rgba(10, 12, 16, 0.6);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        transform-style: preserve-3d;
+        scrollbar-width: none;
+        animation: popUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        opacity: 0;
+      }
+      .container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .header-status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: "Orbitron";
+        font-size: 0.7rem;
+        color: var(--accent);
+        margin-bottom: 25px;
+        border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+        padding-bottom: 10px;
+      }
+      .live-dot {
+        width: 8px;
+        height: 8px;
+        background: #0f0;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+        box-shadow: 0 0 10px #0f0;
+        animation: pulseDot 1s infinite;
+      }
+
+      .profile-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 30px;
+        transform: translateZ(20px);
+      }
+
+      .avatar-wrap {
+        width: 130px;
+        height: 130px;
+        position: relative;
+        margin-bottom: 15px;
+        cursor: pointer;
+      }
+      .avatar-wrap:hover .circle-ring {
+        border-color: var(--primary);
+        transform: rotate(180deg);
+      }
+
+      .circle-ring {
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border: 2px dashed var(--accent);
+        border-radius: 50%;
+        animation: spinSlow 10s linear infinite;
+        transition: 0.5s;
+      }
+      .avatar-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+        z-index: 2;
+        position: relative;
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
+      }
+
+      .name-glitch {
+        font-family: "Orbitron";
+        font-size: 2.2rem;
+        font-weight: 900;
+        background: linear-gradient(to right, #fff, var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        margin-bottom: 5px;
+      }
+
+      .role-tags {
+        display: flex;
+        gap: 10px;
+        font-size: 0.8rem;
+        color: #ccc;
+        font-family: "Rajdhani";
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .tag {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 4px 10px;
+        border-radius: 4px;
+      }
+
+      .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        transform: translateZ(10px);
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        aspect-ratio: 1.4/1;
+      }
+
+      .card.full {
+        grid-column: span 2;
+        aspect-ratio: auto;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 20px;
+        gap: 20px;
+      }
+      .card.full .icon {
+        font-size: 1.8rem;
+        margin-bottom: 0;
+      }
+      .card.full .text-wrap {
+        text-align: left;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          transparent 40%,
+          rgba(255, 255, 255, 0.1) 50%,
+          transparent 60%
+        );
+        background-size: 200% 100%;
+        transition: 0.5s;
+        opacity: 0;
+      }
+
+      .icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+        transition: 0.3s;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .title {
+        font-family: "Orbitron";
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        z-index: 2;
+      }
+      .subtitle {
+        font-size: 0.7rem;
+        color: #888;
+        margin-top: 2px;
+      }
+
+      .card:hover {
+        transform: translateY(-5px) scale(1.02);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--hover-color, white);
+        box-shadow: 0 10px 30px -10px var(--hover-color, rgba(0, 0, 0, 0.5));
+      }
+      .card:hover::before {
+        opacity: 1;
+        background-position: 100% 0;
+      }
+      .card:hover .icon {
+        color: white;
+        transform: scale(1.2) rotate(10deg);
+        filter: drop-shadow(0 0 10px var(--hover-color, white));
+      }
+
+      .card.tiktok {
+        --hover-color: #fe2c55;
+      }
+      .card.youtube {
+        --hover-color: #ff0000;
+      }
+      .card.ig {
+        --hover-color: #d62976;
+      }
+      .card.wiki {
+        --hover-color: var(--accent);
+      }
+      .card.discord {
+        --hover-color: var(--discord);
+      }
+      .card.saweria {
+        --hover-color: var(--gold);
+      }
+      .card.stream {
+        --hover-color: var(--stream);
+      }
+
+      .divider {
+        grid-column: span 2;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin: 25px 0 10px;
+        color: rgba(255, 255, 255, 0.3);
+        font-family: "Orbitron";
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+      }
+      .divider::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      footer {
+        margin-top: 40px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.2);
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        z-index: 9999;
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-card {
+        background: #111;
+        border: 1px solid var(--accent);
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        max-width: 350px;
+        width: 90%;
+        box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+        animation: popUp 0.3s ease;
+      }
+      .qris-img {
+        width: 100%;
+        border-radius: 10px;
+        margin: 15px 0;
+        border: 2px solid white;
+      }
+      .close-icon {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #555;
+      }
+      .close-icon:hover {
+        color: white;
+      }
+
+      @keyframes gridFlow {
+        0% {
+          transform: perspective(600px) rotateX(60deg) translateY(0);
         }
-
-        .avatar-wrap {
-            width: 130px; height: 130px; position: relative;
-            margin-bottom: 15px; cursor: pointer;
+        100% {
+          transform: perspective(600px) rotateX(60deg) translateY(80px);
         }
-        .avatar-wrap:hover .circle-ring { border-color: var(--primary); transform: rotate(180deg); }
-
-        .circle-ring {
-            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border: 2px dashed var(--accent); border-radius: 50%;
-            animation: spinSlow 10s linear infinite; transition: 0.5s;
+      }
+      @keyframes spinSlow {
+        0% {
+          transform: rotate(0deg);
         }
-        .avatar-img {
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-            border: 3px solid white; z-index: 2; position: relative;
-            box-shadow: 0 0 25px rgba(0,240,255,0.5);
+        100% {
+          transform: rotate(360deg);
         }
-
-        .name-glitch {
-            font-family: 'Orbitron'; font-size: 2.2rem; font-weight: 900;
-            background: linear-gradient(to right, #fff, var(--accent));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            position: relative; margin-bottom: 5px;
+      }
+      @keyframes loadFill {
+        0% {
+          width: 0%;
         }
-        
-        .role-tags {
-            display: flex; gap: 10px; font-size: 0.8rem; color: #ccc;
-            font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase;
+        100% {
+          width: 100%;
         }
-        .tag { background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 4px; }
-
-        .bento-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-            transform: translateZ(10px);
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
         }
-
-        .card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px; padding: 15px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-decoration: none; color: white; position: relative; overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            aspect-ratio: 1.4/1;
+        50% {
+          opacity: 0.5;
         }
-        
-        .card.full { grid-column: span 2; aspect-ratio: auto; flex-direction: row; justify-content: flex-start; padding: 20px; gap: 20px; }
-        .card.full .icon { font-size: 1.8rem; margin-bottom: 0; }
-        .card.full .text-wrap { text-align: left; }
-
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
-            background-size: 200% 100%; transition: 0.5s; opacity: 0;
+      }
+      @keyframes floatImage {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 0;
         }
-
-        .icon { font-size: 2rem; margin-bottom: 8px; transition: 0.3s; color: rgba(255,255,255,0.6); }
-        .title { font-family: 'Orbitron'; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; z-index: 2; }
-        .subtitle { font-size: 0.7rem; color: #888; margin-top: 2px; }
-
-        .card:hover { transform: translateY(-5px) scale(1.02); background: rgba(255,255,255,0.08); border-color: var(--hover-color, white); box-shadow: 0 10px 30px -10px var(--hover-color, rgba(0,0,0,0.5)); }
-        .card:hover::before { opacity: 1; background-position: 100% 0; }
-        .card:hover .icon { color: white; transform: scale(1.2) rotate(10deg); filter: drop-shadow(0 0 10px var(--hover-color, white)); }
-
-        .card.tiktok { --hover-color: #fe2c55; }
-        .card.youtube { --hover-color: #ff0000; }
-        .card.ig { --hover-color: #d62976; }
-        .card.wiki { --hover-color: var(--accent); }
-        .card.discord { --hover-color: var(--discord); }
-        .card.saweria { --hover-color: var(--gold); }
-        .card.stream { --hover-color: var(--stream); }
-
-        .divider {
-            grid-column: span 2; display: flex; align-items: center; gap: 15px; margin: 25px 0 10px;
-            color: rgba(255,255,255,0.3); font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 2px;
+        50% {
+          transform: translateY(-20px) scale(1.05);
+          opacity: 0.4;
         }
-        .divider::after { content: ''; height: 1px; flex: 1; background: rgba(255,255,255,0.1); }
-
-        footer {
-            margin-top: 40px; text-align: center; color: rgba(255,255,255,0.2); font-size: 0.7rem; letter-spacing: 2px;
+      }
+      @keyframes popUp {
+        0% {
+          opacity: 0;
+          transform: scale(0.8);
         }
-
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 9999;
-            display: none; justify-content: center; align-items: center;
+        100% {
+          opacity: 1;
+          transform: scale(1);
         }
-        .modal-card {
-            background: #111; border: 1px solid var(--accent); padding: 30px;
-            border-radius: 20px; text-align: center; position: relative;
-            max-width: 350px; width: 90%;
-            box-shadow: 0 0 50px rgba(0,240,255,0.2);
-            animation: popUp 0.3s ease;
+      }
+      @keyframes pulseDot {
+        0% {
+          box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
         }
-        .qris-img { width: 100%; border-radius: 10px; margin: 15px 0; border: 2px solid white; }
-        .close-icon { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #555; }
-        .close-icon:hover { color: white; }
-
-        @keyframes gridFlow { 0% { transform: perspective(600px) rotateX(60deg) translateY(0); } 100% { transform: perspective(600px) rotateX(60deg) translateY(80px); } }
-        @keyframes spinSlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes loadFill { 0% { width: 0%; } 100% { width: 100%; } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        @keyframes floatImage { 0%, 100% { transform: translateY(0) scale(1); opacity: 0; } 50% { transform: translateY(-20px) scale(1.05); opacity: 0.4; } }
-        @keyframes popUp { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); } 70% { box-shadow: 0 0 0 5px rgba(0, 255, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); } }
-        @keyframes floatUp { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-100px) scale(1); opacity: 0; } }
-
+        70% {
+          box-shadow: 0 0 0 5px rgba(0, 255, 0, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+        }
+      }
+      @keyframes floatUp {
+        0% {
+          transform: translateY(100vh) scale(0);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) scale(1);
+          opacity: 0;
+        }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div id="loader">
-        <div class="loader-text">INITIALIZING...</div>
-        <div class="loader-bar"><div class="loader-fill"></div></div>
+      <div class="loader-text">INITIALIZING...</div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
     </div>
 
     <div class="bg-grid"></div>
     <div class="particles" id="particles"></div>
 
     <div class="shadow-layer">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh85_JqJ_yE4h4L6r8f7K2p6b5n9M3o8P1q6R5t4S9u2V1w0X3y7Z8a9B6c/s1600/kamen-rider-geats.png" class="shadow-img img-1">
-        <img src="https://upload.wikimedia.org/wikipedia/en/5/51/Minecraft_cover.png" class="shadow-img img-2">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/1200px-Valorant_logo_-_pink_color_version.svg.png" class="shadow-img img-3">
-        <img src="https://static.wikia.nocookie.net/powerrangers/images/1/16/Gokaiger_Logo.png" class="shadow-img img-4">
+      <img
+        src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh85_JqJ_yE4h4L6r8f7K2p6b5n9M3o8P1q6R5t4S9u2V1w0X3y7Z8a9B6c/s1600/kamen-rider-geats.png"
+        class="shadow-img img-1"
+      />
+      <img
+        src="https://upload.wikimedia.org/wikipedia/en/5/51/Minecraft_cover.png"
+        class="shadow-img img-2"
+      />
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/1200px-Valorant_logo_-_pink_color_version.svg.png"
+        class="shadow-img img-3"
+      />
+      <img
+        src="https://static.wikia.nocookie.net/powerrangers/images/1/16/Gokaiger_Logo.png"
+        class="shadow-img img-4"
+      />
     </div>
 
     <div class="container" id="mainCard">
-        <div class="header-status">
-            <div><span class="live-dot"></span>SYSTEM: ONLINE</div>
-            <div>BAT: 100%</div>
+      <div class="header-status">
+        <div><span class="live-dot"></span>SYSTEM: ONLINE</div>
+        <div>BAT: 100%</div>
+      </div>
+
+      <div class="profile-section">
+        <div class="avatar-wrap">
+          <div class="circle-ring"></div>
+          <img
+            src="https://ui-avatars.com/api/?name=Alip+Toku&background=0a0a0a&color=00f2ff&size=200&bold=true"
+            class="avatar-img"
+          />
+        </div>
+        <h1 class="name-glitch">TOKUFACT</h1>
+        <div class="role-tags">
+          <span class="tag">CREATOR</span>
+          <span class="tag">DEV</span>
+          <span class="tag">RIDER</span>
+        </div>
+      </div>
+
+      <div class="bento-grid">
+        <a
+          href="https://www.tiktok.com/@aalipli?lang=en"
+          target="_blank"
+          class="card tiktok"
+        >
+          <i class="fab fa-tiktok icon"></i>
+          <div class="title">TikTok</div>
+        </a>
+
+        <a
+          href="https://www.youtube.com/@tokufact"
+          target="_blank"
+          class="card youtube"
+        >
+          <i class="fab fa-youtube icon"></i>
+          <div class="title">YouTube</div>
+        </a>
+
+        <a
+          href="https://www.instagram.com/aaliipppp._/"
+          target="_blank"
+          class="card ig"
+        >
+          <i class="fab fa-instagram icon"></i>
+          <div class="title">Instagram</div>
+        </a>
+
+        <a
+          href="https://wikitoku.vercel.app/"
+          target="_blank"
+          class="card wiki"
+        >
+          <i class="fas fa-database icon"></i>
+          <div class="title">WikiToku</div>
+        </a>
+
+        <a
+          href="https://akirystudio.vercel.app/"
+          target="_blank"
+          class="card full akiry"
+          style="--hover-color: white"
+        >
+          <i class="fas fa-laptop-code icon"></i>
+          <div class="text-wrap">
+            <div class="title">Akiry Studio</div>
+            <div class="subtitle">My Digital Startup Project</div>
+          </div>
+        </a>
+
+        <a
+          href="https://discord.gg/yVRmmHSec6"
+          target="_blank"
+          class="card discord"
+        >
+          <i class="fab fa-discord icon"></i>
+          <div class="title">Discord</div>
+        </a>
+
+        <div class="card saweria" id="qrisBtn" style="cursor: pointer">
+          <i class="fas fa-qrcode icon"></i>
+          <div class="title">Scan QRIS</div>
         </div>
 
-        <div class="profile-section">
-            <div class="avatar-wrap">
-                <div class="circle-ring"></div>
-                <img src="https://ui-avatars.com/api/?name=Alip+Toku&background=0a0a0a&color=00f2ff&size=200&bold=true" class="avatar-img">
-            </div>
-            <h1 class="name-glitch">TOKUFACT</h1>
-            <div class="role-tags">
-                <span class="tag">CREATOR</span>
-                <span class="tag">DEV</span>
-                <span class="tag">RIDER</span>
-            </div>
-        </div>
+        <a
+          href="https://saweria.co/Aliifilqodri"
+          target="_blank"
+          class="card full saweria"
+        >
+          <i class="fas fa-bolt icon"></i>
+          <div class="text-wrap">
+            <div class="title">Traktir Saweria</div>
+            <div class="subtitle">Support Energy for Henshin!</div>
+          </div>
+        </a>
 
-        <div class="bento-grid">
-            <a href="https://www.tiktok.com/@aalipli?lang=en" target="_blank" class="card tiktok">
-                <i class="fab fa-tiktok icon"></i>
-                <div class="title">TikTok</div>
-            </a>
-            
-            <a href="https://www.youtube.com/@tokufact" target="_blank" class="card youtube">
-                <i class="fab fa-youtube icon"></i>
-                <div class="title">YouTube</div>
-            </a>
+        <div class="divider">[ ALLIED FORCES ]</div>
 
-            <a href="https://www.instagram.com/aaliipppp._/" target="_blank" class="card ig">
-                <i class="fab fa-instagram icon"></i>
-                <div class="title">Instagram</div>
-            </a>
+        <a
+          href="https://bylink.id/kuroneroo"
+          target="_blank"
+          class="card full stream"
+        >
+          <i class="fas fa-gamepad icon"></i>
+          <div class="text-wrap">
+            <div class="title">Kuroneroo</div>
+            <div class="subtitle">Variety Streamer</div>
+          </div>
+        </a>
 
-            <a href="https://wikitoku.vercel.app/" target="_blank" class="card wiki">
-                <i class="fas fa-database icon"></i>
-                <div class="title">WikiToku</div>
-            </a>
+        <a
+          href="https://linktr.ee/radencihuy?utm_source=linktree_profile_share&ltsid=36ba79c5-aed7-40df-8c3a-13b115a27388"
+          target="_blank"
+          class="card full stream"
+        >
+          <i class="fas fa-crosshairs icon"></i>
+          <div class="text-wrap">
+            <div class="title">Radencihuy</div>
+            <div class="subtitle">Valorant Agent</div>
+          </div>
+        </a>
+      </div>
 
-            <a href="https://akirystudio.vercel.app/" target="_blank" class="card full akiry" style="--hover-color: white;">
-                <i class="fas fa-laptop-code icon"></i>
-                <div class="text-wrap">
-                    <div class="title">Akiry Studio</div>
-                    <div class="subtitle">My Digital Startup Project</div>
-                </div>
-            </a>
-
-            <a href="https://discord.gg/yVRmmHSec6" target="_blank" class="card discord">
-                <i class="fab fa-discord icon"></i>
-                <div class="title">Discord</div>
-            </a>
-
-            <div class="card saweria" id="qrisBtn" style="cursor: pointer;">
-                <i class="fas fa-qrcode icon"></i>
-                <div class="title">Scan QRIS</div>
-            </div>
-
-            <a href="https://saweria.co/Aliifilqodri" target="_blank" class="card full saweria">
-                <i class="fas fa-bolt icon"></i>
-                <div class="text-wrap">
-                    <div class="title">Traktir Saweria</div>
-                    <div class="subtitle">Support Energy for Henshin!</div>
-                </div>
-            </a>
-
-            <div class="divider">[ ALLIED FORCES ]</div>
-
-            <a href="https://bylink.id/kuroneroo" target="_blank" class="card full stream">
-                <i class="fas fa-gamepad icon"></i>
-                <div class="text-wrap">
-                    <div class="title">Kuroneroo</div>
-                    <div class="subtitle">Variety Streamer</div>
-                </div>
-            </a>
-
-            <a href="https://linktr.ee/radencihuy?utm_source=linktree_profile_share&ltsid=36ba79c5-aed7-40df-8c3a-13b115a27388" target="_blank" class="card full stream">
-                <i class="fas fa-crosshairs icon"></i>
-                <div class="text-wrap">
-                    <div class="title">Radencihuy</div>
-                    <div class="subtitle">Valorant Agent</div>
-                </div>
-            </a>
-        </div>
-
-        <footer>
-            TOKUFACT SYSTEM V.3.0 // 2026
-        </footer>
+      <footer>TOKUFACT SYSTEM V.3.0 // 2026</footer>
     </div>
 
     <div class="modal-overlay" id="modal">
-        <div class="modal-card">
-            <div class="close-icon">&times;</div>
-            <h2 style="font-family:'Orbitron'; color:var(--accent); margin-bottom:5px;">ENERGY CHARGE</h2>
-            <p style="color:#aaa; font-size:0.9rem; font-style:italic;">"Donasi buat beli kopi biar gak ngantuk pas coding!"</p>
-            <img src="qris.png" class="qris-img" alt="QRIS">
-            <p style="font-size:0.8rem; color:#666;">Scan via Dana, Gopay, OVO, dll</p>
-        </div>
+      <div class="modal-card">
+        <div class="close-icon">&times;</div>
+        <h2
+          style="
+            font-family: &quot;Orbitron&quot;;
+            color: var(--accent);
+            margin-bottom: 5px;
+          "
+        >
+          ENERGY CHARGE
+        </h2>
+        <p style="color: #aaa; font-size: 0.9rem; font-style: italic">
+          "Donasi buat beli kopi biar gak ngantuk pas coding!"
+        </p>
+        <img src="qris.png" class="qris-img" alt="QRIS" />
+        <p style="font-size: 0.8rem; color: #666">
+          Scan via Dana, Gopay, OVO, dll
+        </p>
+      </div>
     </div>
 
     <script>
-        // LOADER
-        window.onload = () => {
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
-            }, 2000);
-        }
+      // LOADER
+      window.onload = () => {
+        setTimeout(() => {
+          document.getElementById("loader").style.opacity = "0";
+          setTimeout(
+            () => (document.getElementById("loader").style.display = "none"),
+            500,
+          );
+        }, 2000);
+      };
 
-        // 3D TILT EFFECT
-        const card = document.getElementById('mainCard');
-        document.addEventListener('mousemove', (e) => {
-            if(window.innerWidth > 768) {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            }
-        });
+      // 3D TILT EFFECT
+      const card = document.getElementById("mainCard");
+      document.addEventListener("mousemove", (e) => {
+        if (window.innerWidth > 768) {
+          const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+          const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+          card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        }
+      });
 
-        // PARTICLES
-        const particlesContainer = document.getElementById('particles');
-        for(let i=0; i<30; i++) {
-            let p = document.createElement('div');
-            p.classList.add('particle');
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            p.style.opacity = Math.random();
-            particlesContainer.appendChild(p);
-        }
+      // PARTICLES
+      const particlesContainer = document.getElementById("particles");
+      for (let i = 0; i < 30; i++) {
+        let p = document.createElement("div");
+        p.classList.add("particle");
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = Math.random() * 5 + 5 + "s";
+        p.style.opacity = Math.random();
+        particlesContainer.appendChild(p);
+      }
 
-        // MODAL
-        const modal = document.getElementById('modal');
-        document.getElementById('qrisBtn').onclick = () => {
-            modal.style.display = 'flex';
-        }
-        document.querySelector('.close-icon').onclick = () => {
-            modal.style.display = 'none';
-        }
-        window.onclick = (e) => {
-            if(e.target == modal) modal.style.display = 'none';
-        }
+      // MODAL
+      const modal = document.getElementById("modal");
+      document.getElementById("qrisBtn").onclick = () => {
+        modal.style.display = "flex";
+      };
+      document.querySelector(".close-icon").onclick = () => {
+        modal.style.display = "none";
+      };
+      window.onclick = (e) => {
+        if (e.target == modal) modal.style.display = "none";
+      };
     </script>
-</body>
+  </body>
 </html>

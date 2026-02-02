@@ -61,8 +61,8 @@
         align-items: center;
         justify-content: center;
         transition:
-          opacity 0.8s ease-out,
-          visibility 0.8s;
+          opacity 0.5s ease-out,
+          visibility 0.5s;
       }
       .loader-glitch {
         font-family: "Orbitron";
@@ -91,6 +91,47 @@
         animation: loadProgress 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
 
+      #transition-screen {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        z-index: 99990;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      }
+      #transition-screen.active {
+        transform: scaleY(1);
+      }
+      .trans-text {
+        font-family: "Orbitron";
+        font-size: 1.5rem;
+        color: white;
+        letter-spacing: 3px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 0.3s 0.3s;
+      }
+      #transition-screen.active .trans-text {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .trans-bar {
+        width: 0%;
+        height: 2px;
+        background: var(--accent);
+        margin-top: 15px;
+        box-shadow: 0 0 15px var(--accent);
+        transition: width 1s ease-in-out;
+      }
+      #transition-screen.active .trans-bar {
+        width: 200px;
+      }
+
       .bg-wrapper {
         position: fixed;
         top: 0;
@@ -108,7 +149,7 @@
         top: -50%;
         left: -50%;
         background-image:
-          linear-gradient(rgba(5, 5, 5, 0.8), rgba(5, 5, 5, 0.9)),
+          linear-gradient(rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.95)),
           linear-gradient(
             0deg,
             transparent 24%,
@@ -351,6 +392,7 @@
         overflow: hidden;
         transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         aspect-ratio: 1.5/1;
+        cursor: pointer;
       }
 
       .card.wide {
@@ -451,7 +493,6 @@
       .qris {
         --hover-c: #0f0;
         --hover-c-glow: rgba(0, 255, 0, 0.5);
-        cursor: pointer;
       }
       .stream {
         --hover-c: var(--stream);
@@ -682,6 +723,11 @@
       <div class="loader-bar"><div class="loader-progress"></div></div>
     </div>
 
+    <div id="transition-screen">
+      <div class="trans-text">ESTABLISHING CONNECTION...</div>
+      <div class="trans-bar"></div>
+    </div>
+
     <div class="bg-wrapper">
       <div class="grid-floor"></div>
     </div>
@@ -730,101 +776,90 @@
       </div>
 
       <div class="bento-grid">
-        <a
-          href="https://www.tiktok.com/@aalipli?lang=en"
-          target="_blank"
-          class="card tiktok"
+        <div
+          class="card tiktok nav-link"
+          data-url="https://www.tiktok.com/@aalipli?lang=en"
         >
           <i class="fab fa-tiktok card-icon"></i>
           <div class="card-title">TikTok</div>
-        </a>
+        </div>
 
-        <a
-          href="https://www.youtube.com/@tokufact"
-          target="_blank"
-          class="card yt"
+        <div
+          class="card yt nav-link"
+          data-url="https://www.youtube.com/@tokufact"
         >
           <i class="fab fa-youtube card-icon"></i>
           <div class="card-title">YouTube</div>
-        </a>
+        </div>
 
-        <a
-          href="https://www.instagram.com/aaliipppp._/"
-          target="_blank"
-          class="card ig"
+        <div
+          class="card ig nav-link"
+          data-url="https://www.instagram.com/aaliipppp._/"
         >
           <i class="fab fa-instagram card-icon"></i>
           <div class="card-title">Instagram</div>
-        </a>
+        </div>
 
-        <a
-          href="https://wikitoku.vercel.app/"
-          target="_blank"
-          class="card wiki"
-        >
+        <div class="card wiki nav-link" data-url="https://wikitoku.vercel.app/">
           <i class="fas fa-database card-icon"></i>
           <div class="card-title">WikiToku</div>
-        </a>
+        </div>
 
-        <a
-          href="https://akirystudio.vercel.app/"
-          target="_blank"
-          class="card wide akiry"
+        <div
+          class="card wide akiry nav-link"
+          data-url="https://akirystudio.vercel.app/"
         >
           <i class="fas fa-laptop-code card-icon"></i>
           <div class="card-text">
             <div class="card-title">Akiry Studio</div>
             <div class="card-sub">Creative Design Startup</div>
           </div>
-        </a>
+        </div>
 
-        <a href="https://discord.gg/yVRmmHSec6" target="_blank" class="card dc">
+        <div class="card dc nav-link" data-url="https://discord.gg/yVRmmHSec6">
           <i class="fab fa-discord card-icon"></i>
           <div class="card-title">Discord</div>
-        </a>
+        </div>
 
         <div class="card qris" id="openQris">
           <i class="fas fa-qrcode card-icon"></i>
           <div class="card-title">Scan QRIS</div>
         </div>
 
-        <a
-          href="https://saweria.co/Aliifilqodri"
-          target="_blank"
-          class="card wide saweria"
+        <div
+          class="card wide saweria nav-link"
+          data-url="https://saweria.co/Aliifilqodri"
         >
           <i class="fas fa-bolt card-icon"></i>
           <div class="card-text">
             <div class="card-title">Traktir Saweria</div>
             <div class="card-sub">Energy Charge for Admin!</div>
           </div>
-        </a>
+        </div>
 
         <div class="divider">[ ALLIED FORCES ]</div>
 
-        <a
-          href="https://bylink.id/kuroneroo"
-          target="_blank"
-          class="card wide stream"
+        <div
+          class="card wide stream nav-link"
+          data-url="https://bylink.id/kuroneroo"
         >
           <i class="fas fa-gamepad card-icon"></i>
           <div class="card-text">
             <div class="card-title">Kuroneroo</div>
             <div class="card-sub">Variety Streamer</div>
           </div>
-        </a>
+        </div>
 
-        <a
-          href="https://linktr.ee/radencihuy?utm_source=linktree_profile_share&ltsid=36ba79c5-aed7-40df-8c3a-13b115a27388"
-          target="_blank"
-          class="card wide stream"
+        <div
+          class="card wide stream nav-link"
+          data-url="https://linktr.ee/radencihuy?utm_source=linktree_profile_share&ltsid=36ba79c5-aed7-40df-8c3a-13b115a27388"
         >
           <i class="fas fa-crosshairs card-icon"></i>
           <div class="card-text">
             <div class="card-title">Radencihuy</div>
             <div class="card-sub">Valorant Agent</div>
           </div>
-        </a>
+        </div>
       </div>
 
       <footer>SYSTEM VER 4.0 // TOKUFACT 2026</footer>
@@ -891,6 +926,26 @@
       modal.onclick = (e) => {
         if (e.target === modal) modal.classList.remove("modal-active");
       };
+
+      const transScreen = document.getElementById("transition-screen");
+      const navLinks = document.querySelectorAll(".nav-link");
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const url = link.getAttribute("data-url");
+
+          transScreen.classList.add("active");
+
+          setTimeout(() => {
+            window.open(url, "_blank");
+
+            setTimeout(() => {
+              transScreen.classList.remove("active");
+            }, 1000);
+          }, 1500);
+        });
+      });
     </script>
   </body>
 </html>

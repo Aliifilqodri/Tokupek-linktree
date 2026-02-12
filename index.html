@@ -23,6 +23,7 @@
         --accent: #00f0ff;
         --gold: #ffd700;
         --discord: #5865f2;
+        --whatsapp: #25d366;
         --youtube: #ff0000;
         --stream: #9146ff;
         --dark: #050505;
@@ -454,6 +455,9 @@
         font-size: 0.85rem;
         letter-spacing: 1px;
         z-index: 2;
+        word-break: break-word;
+        text-align: center;
+        line-height: 1.2;
       }
       .card-sub {
         font-size: 0.7rem;
@@ -485,6 +489,10 @@
       .dc {
         --hover-c: var(--discord);
         --hover-c-glow: rgba(88, 101, 242, 0.5);
+      }
+      .wa {
+        --hover-c: var(--whatsapp);
+        --hover-c-glow: rgba(37, 211, 102, 0.5);
       }
       .saweria {
         --hover-c: var(--gold);
@@ -821,20 +829,27 @@
           <div class="card-title">Discord</div>
         </div>
 
+        <div
+          class="card wa nav-link"
+          data-url="https://whatsapp.com/channel/0029VbBWRRH6rsQjMVKdlA3a"
+        >
+          <i class="fab fa-whatsapp card-icon"></i>
+          <div class="card-title" style="font-size: 0.75rem">
+            suuraichou/777lucky☆
+          </div>
+        </div>
+
         <div class="card qris" id="openQris">
           <i class="fas fa-qrcode card-icon"></i>
           <div class="card-title">Scan QRIS</div>
         </div>
 
         <div
-          class="card wide saweria nav-link"
+          class="card saweria nav-link"
           data-url="https://saweria.co/Aliifilqodri"
         >
           <i class="fas fa-bolt card-icon"></i>
-          <div class="card-text">
-            <div class="card-title">Traktir Saweria</div>
-            <div class="card-sub">Energy Charge for Admin!</div>
-          </div>
+          <div class="card-title">Saweria</div>
         </div>
 
         <div class="divider">[ ALLIED FORCES ]</div>
